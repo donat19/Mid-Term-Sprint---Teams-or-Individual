@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <h1><a href="/">🌍 Travel Itinerary Generator</a></h1>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/highlights">Highlights</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">Home</a> > <span><%= itinerary.destination %> Itinerary</span>
+            </div>
+            
+            <section class="itinerary-details">
+                <div class="itinerary-header">
+                    <h2>🗺️ <%= itinerary.destination %></h2>
+                    <div class="itinerary-stats">
+                        <span class="stat">
+                            <strong><%= itinerary.activities.length %></strong> Activities
+                        </span>
+                        <span class="stat total-cost">
+                            <strong>$<%= itinerary.totalCost %></strong> Total Cost
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="activities-container">
+                    <h3>Your Itinerary</h3>
+                    <div class="activities-grid">
+                        <% itinerary.activities.forEach((activity, index) => { %>
+                            <div class="activity-card <%= activity.isHighlight ? 'highlight' : '' %>">
+                                <div class="activity-number">Day <%= index + 1 %></div>
+                                <div class="activity-content">
+                                    <h4 class="activity-title">
+                                        <%= activity.name %>
+                                        <% if (activity.isHighlight) { %>
+                                            <span class="highlight-badge">⭐ Must-Do</span>
+                                        <% } %>
+                                    </h4>
+                                    <p class="activity-description"><%= activity.description %></p>
+                                    <div class="activity-price">$<%= activity.price %></div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+                
+                <div class="itinerary-summary">
+                    <h3>Trip Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="summary-label">Destination:</span>
+                            <span class="summary-value"><%= itinerary.destination %></span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Total Activities:</span>
+                            <span class="summary-value"><%= itinerary.activities.length %></span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Highlight Activities:</span>
+                            <span class="summary-value"><%= itinerary.activities.filter(a => a.isHighlight).length %></span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Estimated Budget:</span>
+                            <span class="summary-value">$<%= itinerary.totalCost %></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="/" class="btn btn-secondary">← Plan Another Trip</a>
+                    <a href="/highlights" class="btn btn-primary">View All Highlights →</a>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Travel Itinerary Generator - Mid Term Sprint Project by Ivan</p>
+    </footer>
+</body>
+</html>

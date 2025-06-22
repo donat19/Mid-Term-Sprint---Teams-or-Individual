@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <h1><a href="/">🌍 Travel Itinerary Generator</a></h1>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/highlights" class="active">Highlights</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">Home</a> > <span>Highlighted Activities</span>
+            </div>
+            
+            <section class="highlights-section">
+                <div class="highlights-header">
+                    <h2>⭐ Highlighted Activities</h2>
+                    <p>Discover the must-do experiences from all our travel destinations</p>
+                </div>
+                
+                <% if (Object.keys(highlights).length === 0) { %>
+                    <div class="no-highlights">
+                        <div class="empty-state">
+                            <h3>No Highlighted Activities Yet</h3>
+                            <p>Generate some itineraries first to see highlighted activities appear here!</p>
+                            <a href="/" class="btn btn-primary">Create an Itinerary</a>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <div class="destinations-grid">
+                        <% Object.entries(highlights).forEach(([destination, activities]) => { %>
+                            <div class="destination-highlights">
+                                <h3 class="destination-title">📍 <%= destination %></h3>
+                                <div class="highlight-activities">
+                                    <% activities.forEach(activity => { %>
+                                        <div class="highlight-card">
+                                            <div class="highlight-content">
+                                                <h4 class="highlight-name"><%= activity.name %></h4>
+                                                <p class="highlight-description"><%= activity.description %></p>
+                                                <div class="highlight-price">$<%= activity.price %></div>
+                                            </div>
+                                            <div class="highlight-actions">
+                                                <a href="/itinerary/<%= encodeURIComponent(destination) %>" class="view-itinerary-link">
+                                                    View Full Itinerary →
+                                                </a>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } %>
+                
+                <!-- Show destinations with no highlights -->
+                <% if (allDestinations.length > Object.keys(highlights).length) { %>
+                    <div class="no-highlights-section">
+                        <h3>Destinations Without Highlights</h3>
+                        <div class="no-highlights-list">
+                            <% allDestinations.forEach(destination => { %>
+                                <% if (!highlights[destination]) { %>
+                                    <div class="no-highlight-item">
+                                        <span class="destination-name"><%= destination %></span>
+                                        <span class="no-highlight-message">No highlighted activities yet</span>
+                                        <a href="/itinerary/<%= encodeURIComponent(destination) %>" class="btn btn-small">
+                                            Generate Itinerary
+                                        </a>
+                                    </div>
+                                <% } %>
+                            <% }); %>
+                        </div>
+                    </div>
+                <% } %>
+                
+                <div class="highlights-footer">
+                    <a href="/" class="btn btn-secondary">← Back to Home</a>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Travel Itinerary Generator - Mid Term Sprint Project by Ivan</p>
+    </footer>
+</body>
+</html>

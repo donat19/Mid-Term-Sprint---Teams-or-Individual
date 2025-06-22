@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <h1><a href="/">🌍 Travel Itinerary Generator</a></h1>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/highlights">Highlights</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="hero-section">
+            <h2>Discover Your Next Adventure</h2>
+            <p>Generate custom travel itineraries for amazing destinations worldwide</p>
+        </div>
+        
+        <div class="container">
+            <!-- Destination Selection Form -->
+            <section class="destination-selector">
+                <h3>Plan Your Trip</h3>
+                <form action="/generate-itinerary" method="POST" class="destination-form">
+                    <div class="form-group">
+                        <label for="destination">Choose a destination:</label>
+                        <select name="destination" id="destination" required>
+                            <option value="">Select a destination...</option>
+                            <% destinations.forEach(dest => { %>
+                                <option value="<%= dest %>"><%= dest %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Itinerary</button>
+                </form>
+            </section>
+            
+            <!-- Featured Itinerary -->
+            <section class="featured-itinerary">
+                <h3>✨ Featured Itinerary</h3>
+                <div class="itinerary-card">
+                    <h4><%= featuredItinerary.destination %></h4>
+                    <p class="trip-cost">Estimated Total: <strong>$<%= featuredItinerary.totalCost %></strong></p>
+                    
+                    <div class="activities-list">
+                        <h5>Activities (<%= featuredItinerary.activities.length %>):</h5>
+                        <ul>
+                            <% featuredItinerary.activities.forEach(activity => { %>
+                                <li class="activity-item <%= activity.isHighlight ? 'highlight' : '' %>">
+                                    <div class="activity-info">
+                                        <span class="activity-name">
+                                            <%= activity.name %>
+                                            <% if (activity.isHighlight) { %>
+                                                <span class="highlight-badge">⭐ Highlight</span>
+                                            <% } %>
+                                        </span>
+                                        <span class="activity-price">$<%= activity.price %></span>
+                                    </div>
+                                    <p class="activity-description"><%= activity.description %></p>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                    
+                    <a href="/itinerary/<%= encodeURIComponent(featuredItinerary.destination) %>" class="btn btn-secondary">
+                        View Full Itinerary
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Travel Itinerary Generator - Mid Term Sprint Project by Ivan</p>
+    </footer>
+</body>
+</html>

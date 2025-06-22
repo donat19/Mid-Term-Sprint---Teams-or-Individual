@@ -1,0 +1,78 @@
+Database Normalization Explanation
+=====================================
+
+This database has been normalized to Third Normal Form (3NF) to ensure data integrity, reduce redundancy, and improve maintainability.
+
+## First Normal Form (1NF)
+- All tables have atomic (indivisible) values
+- Each column contains only single values
+- All entries in a column are of the same data type
+- Each column has a unique name
+- The order of rows and columns doesn't matter
+
+## Second Normal Form (2NF)
+- The database is in 1NF
+- All non-key attributes are fully functionally dependent on the primary key
+- No partial dependencies exist
+
+Example: In the sessions table, all attributes (title, description, session_date, etc.) depend on the entire primary key (session_id), not just part of it.
+
+## Third Normal Form (3NF)
+- The database is in 2NF
+- No transitive dependencies exist (non-key attributes don't depend on other non-key attributes)
+- All non-key attributes are directly dependent only on the primary key
+
+## Normalization Process:
+
+### Original Unnormalized Structure:
+Before normalization, data might have been stored in a single table with repeating groups:
+- Conference info, speaker info, session info, and attendee info all in one table
+- This would lead to data redundancy and update anomalies
+
+### After Normalization:
+
+1. **Conferences Table**: Stores unique conference information
+   - Primary Key: conference_id
+   - Contains only conference-specific data
+
+2. **Speakers Table**: Stores unique speaker information
+   - Primary Key: speaker_id
+   - Contains only speaker-specific data
+   - Eliminates redundancy when speakers present at multiple conferences
+
+3. **Sessions Table**: Links conferences and speakers
+   - Primary Key: session_id
+   - Foreign Keys: conference_id, speaker_id
+   - Contains session-specific information
+
+4. **Attendees Table**: Stores unique attendee information
+   - Primary Key: attendee_id
+   - Contains only attendee-specific data
+
+5. **Conference_Registrations Table**: Many-to-many relationship
+   - Resolves the many-to-many relationship between conferences and attendees
+   - Allows attendees to register for multiple conferences
+   - Allows conferences to have multiple attendees
+
+6. **Session_Attendance Table**: Many-to-many relationship
+   - Resolves the many-to-many relationship between sessions and attendees
+   - Tracks which sessions each attendee registers for/attends
+
+## Benefits of This Normalization:
+
+1. **Data Integrity**: Prevents inconsistent data
+2. **Reduced Redundancy**: Speaker information is stored once, referenced by sessions
+3. **Easier Maintenance**: Updates to speaker info only need to happen in one place
+4. **Flexibility**: Easy to add new relationships and queries
+5. **Storage Efficiency**: Eliminates duplicate data storage
+
+## Foreign Key Relationships:
+
+- sessions.conference_id → conferences.conference_id
+- sessions.speaker_id → speakers.speaker_id
+- conference_registrations.conference_id → conferences.conference_id
+- conference_registrations.attendee_id → attendees.attendee_id
+- session_attendance.session_id → sessions.session_id
+- session_attendance.attendee_id → attendees.attendee_id
+
+This structure ensures referential integrity and supports complex queries while maintaining data consistency.
